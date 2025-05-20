@@ -1,0 +1,28 @@
+font = "Source Code Pro"
+font-size = 12
+prompt-text = "select: "
+hide-cursor = false
+text-cursor = true
+text-cursor-style=block
+physical-keybindings = false
+
+background-color = #000000A6
+text-color = #FFFFFF
+
+selection-color = #000000
+selection-background = #FFFFFFA6
+
+width = 800
+height = 480
+
+outline-width = 0
+outline-color = #FFFFFF
+
+border-width = 3
+border-color = #FFFFFF
+
+clip-to-padding = true
+padding-top = 0
+padding-bottom = 0
+padding-left = 0
+padding-right = 0

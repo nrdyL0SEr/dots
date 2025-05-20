@@ -1,0 +1,42 @@
+indicator-idle-visible
+disable-caps-lock-text
+
+# color change
+ring-color=000000
+
+color=ffffff
+text-color=ffffff00
+text-clear-color=ffffff00
+text-caps-lock-color=ffffff00
+text-ver-color=ffffff00
+text-wrong-color=ffffff00
+# end of color change
+
+separator-color=00000000
+bs-hl-color=dc8a78
+caps-lock-bs-hl-color=dc8a78
+caps-lock-key-hl-color=40a02b
+key-hl-color=40a02b
+
+layout-bg-color=00000000
+layout-border-color=00000000
+layout-text-color=000000
+
+# clear, caps, verifying, wrong
+ring-clear-color=dc8a78
+ring-caps-lock-color=fe640b
+ring-ver-color=1e66f5
+ring-wrong-color=e64553
+
+# makes the inside empty
+inside-color=00000000
+inside-clear-color=00000000 
+inside-caps-lock-color=00000000 
+inside-ver-color=00000000
+inside-wrong-color=00000000
+
+line-color=00000000
+line-clear-color=00000000
+line-caps-lock-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000

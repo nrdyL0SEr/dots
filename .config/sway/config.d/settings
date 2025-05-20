@@ -1,0 +1,86 @@
+### --- AUTOSTART APPLICATIONS ----
+# Clipboard
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+# Notifications
+exec mako
+# Applications
+exec thunderbird
+exec keepassxc
+exec gtk-launch librewolf-HTM.desktop
+exec tmux new-session -s music "tmux source-file ~/.config/ncmpcpp/music_session"
+exec tmux new-session -s hack -n mainframe
+exec tmux new-session -s rss "tmux set status && newsboat"
+# foot --server, then %s/foot/footclient
+exec foot --app-id="foot-music" tmux attach-session -t music
+exec foot --app-id="foot-norml" tmux attach-session -t hack -c /home/notfound404/
+exec gtk-launch librewolf-MAIN.desktop
+exec emacs --daemon & emacsclient -c 
+exec foot --app-id="foot-feedr" tmux attach-session -t rss
+# Application->Workspace
+for_window [app_id="thunderbird"] move container to workspace 1
+for_window [app_id="org.keepassxc.KeePassXC"] move container to workspace 1
+for_window [app_id="librewolf-main"] move container to workspace 2
+for_window [app_id="emacs"] move container to workspace 10
+for_window [app_id="foot-music"] move container to workspace 4
+for_window [class="steam"] move container to workspace 5
+for_window [app_id="foot-norml"] move container to workspace 8
+for_window [app_id="librewolf-htm"] move container to workspace 9
+for_window [app_id="foot-feedr"] move container to workspace 10
+# Position
+workspace 2
+
+
+### --- IDLE ----
+exec_always swayidle -w \
+                timeout 120    'swaylock -f' \
+                timeout 180    'systemctl suspend' \
+                resume          'swaymsg "output * dpms on"' \
+                before-sleep    'swaylock -f'
+for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [class=".*"] inhibit_idle fullscreen
+
+
+
+### --- WALLPAPER ----
+output * bg '/home/notfound404/Notes/memes.forever/sick-retro/homegrown-balls_2.jpg' fill
+
+### --- TOUCHPAD ----
+input type:touchpad {
+    tap disabled
+    natural_scroll enabled
+    click_method clickfinger
+    middle_emulation enabled
+    scroll_method two_finger
+    dwt enabled
+}
+seat * hide_cursor when-typing enable
+focus_follows_mouse no
+
+### --- KEYBOARD ----
+input type:keyboard {
+    xkb_layout us
+    xkb_variant dvorak
+	xkb_options "altwin:swap_lalt_lwin"
+}
+
+### --- WINDOWS ----
+exec smart_gaps on
+gaps inner 4
+gaps outer 4
+default_border pixel 3
+default_floating_border pixel 3
+font pango:monospace 0.001
+titlebar_padding 1
+titlebar_border_thickness 0
+
+### --- WINDOW RULES ----
+for_window [app_id="imv"] floating enable
+for_window [app_id="foot"] floating enable
+floating_minimum_size 800 x 500
+floating_maximum_size 900 x 700
+# class         border  backgr. text   indicator child_border
+#cool_blue
+#client.focused #0000ff #0000ff #0000ff #0000ff #0000ff
+client.focused #ffffff #ffffff #ffffff #ffffff #ffffff
+client.unfocused #000000 #000000 #000000 #000000 #000000

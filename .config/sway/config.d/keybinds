@@ -1,0 +1,160 @@
+### --- LAUNCHER ----
+bindsym $mod+c exec cliphist list | tofi | cliphist decode | wl-copy 
+bindsym $mod+g exec ~/.local/bin/windows.py
+bindsym $mod+BackSpace exec ~/.local/bin/powermenu
+bindsym $mod+d exec tofi-drun | xargs swaymsg exec -- 
+
+### --- HOME-ROW ----
+# Clock
+bindsym $mod+Alt+h exec ~/.local/bin/time.sh
+# Battery
+bindsym $mod+Alt+t exec notify-send "$(upower --dump | grep 'charging' | awk 'NR==1{print $2}' | sed 's/./\u&/'): $(cat /sys/class/power_supply/BAT0/capacity)%" -t 600 -h string:synchronous:battery -h string:x-canonical-private-synchronous:battery
+# Network
+bindsym $mod+Alt+n exec notify-send "Network: $(nmcli connection show --active | awk 'FNR==2{print $1}')" -t 600 -h string:synchronous:network -h string:x-canonical-private-synchronous:network
+# Clear notifications
+bindsym $mod+Alt+s exec makoctl dismiss -a
+## ----
+# TODO Toggle clock
+bindsym $mod+Shift+Alt+h exec pkill time.sh && makoctl dismiss
+# Youtube
+bindsym $mod+Shift+Alt+t exec ~/.local/bin/yt.sh $(wl-paste)
+# Newtork
+bindsym $mod+Alt+Shift+n exec foot nmtui
+# Emoji
+bindsym $mod+Alt+Shift+s exec ~/.local/bin/emoji-picker.sh
+
+
+### --- SYSTEM ----
+# Keys
+bindsym --locked XF86AudioMute exec ~/.local/bin/audio.sh mute
+bindsym --locked XF86AudioLowerVolume exec ~/.local/bin/audio.sh down
+bindsym --locked XF86AudioRaiseVolume exec ~/.local/bin/audio.sh up
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle 
+bindsym --locked XF86MonBrightnessDown exec ~/.local/bin/brightness.sh down
+bindsym --locked XF86MonBrightnessUp exec ~/.local/bin/brightness.sh up
+#bindsym XF86Display  
+bindsym XF86WLAN exec foot nmtui
+#bindsym XF86NotificationCenter 
+#bindsym XF86PickupPhone 
+#bindsym XF86HangupPhone
+bindsym XF86Favorites workspace 4
+
+# Audio
+bindsym --locked $mod+equal exec ~/.local/bin/audio.sh up
+bindsym --locked $mod+minus exec ~/.local/bin/audio.sh down
+bindsym --locked $mod+plus exec ~/.local/bin/audio.sh upfive
+bindsym --locked $mod+underscore exec ~/.local/bin/audio.sh downfive
+# Brightness
+bindsym --locked $mod+Shift+z exec ~/.local/bin/brightness.sh up
+bindsym --locked $mod+z exec ~/.local/bin/brightness.sh down
+# Bluelight
+bindsym --locked $mod+Control+l exec ~/.local/bin/gammastep.sh -100
+bindsym --locked $mod+Control+Shift+l exec ~/.local/bin/gammastep.sh 100
+# Tap To Click
+bindsym $mod+grave exec sed -i "26s/enabled/disabled/" ~/.config/sway/config.d/settings && exec swaymsg reload
+bindsym $mod+Shift+grave exec sed -i "26s/disabled/enabled/" ~/.config/sway/config.d/settings && exec swaymsg reload
+
+
+### --- APP. SHORTCUTS ----
+# Mounting
+bindsym $mod+u exec ~/.local/bin/mount.sh
+# Record
+bindsym $mod+Shift+r exec ~/.local/bin/record.sh
+# Idle
+bindsym $mod+i exec swaymsg inhibit_idle none
+bindsym $mod+Shift+i exec swaymsg inhibit_idle open
+### --- APPLICATIONS ----
+bindsym $mod+w workspace 2
+bindsym $mod+Shift+w workspace 9
+bindsym $mod+Shift+t workspace 10
+bindsym $mod+t workspace 8
+bindsym $mod+a workspace 5
+bindsym $mod+Shift+f exec foot lf
+bindsym $mod+Down exec foot bc -lq
+bindsym $mod+Shift+a exec anki -b ~/notes/Anki
+
+
+### --- WINDOWS ----
+bindsym $mod+Control+c exec swaymsg reload 
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+x kill
+mode "Layout" {
+    bindsym less resize shrink width 10px
+    bindsym plus resize grow height 10px
+    bindsym minus resize shrink height 10px
+    bindsym greater resize grow width 10px
+
+    bindsym s layout stacking, mode "default", exec makoctl dismiss
+    bindsym t layout tabbed, mode "default", exec makoctl dismiss
+    bindsym e layout toggle split, mode "default", exec makoctl dismiss
+   
+    bindsym Control+s sticky toggle
+ 
+    bindsym c move position center, mode "default", exec makoctl dismiss
+
+    bindsym Shift+s splitv
+    bindsym Shift+v splith
+
+    bindsym Return mode "default", exec makoctl dismiss
+    bindsym Escape mode "default", exec makoctl dismiss
+    bindsym Control+c mode "default", exec makoctl dismiss
+    bindsym $mod+r mode "default", exec makoctl dismiss
+}
+bindsym $mod+r mode "Layout", exec notify-send -t 60000 "Mode: Layout"
+
+
+### --- NAVIGATION ----
+set $left h
+set $down j
+set $up k
+set $right l
+floating_modifier $mod normal
+# Floating windows
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+# Scratchpad
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+m scratchpad show
+# Move within workspace
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Move to windows within workspace
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# Move to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# Move to workspace and *not* follow
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+# Move window to workspace and follow
+bindsym $mod+Control+1 move container to workspace number 1, workspace number 1
+bindsym $mod+Control+2 move container to workspace number 2, workspace number 2 
+bindsym $mod+Control+3 move container to workspace number 3, workspace number 3
+bindsym $mod+Control+4 move container to workspace number 4, workspace number 4
+bindsym $mod+Control+5 move container to workspace number 5, workspace number 5
+bindsym $mod+Control+6 move container to workspace number 6, workspace number 6
+bindsym $mod+Control+7 move container to workspace number 7, workspace number 7
+bindsym $mod+Control+8 move container to workspace number 8, workspace number 8
+bindsym $mod+Control+9 move container to workspace number 9, workspace number 9
+bindsym $mod+Control+0 move container to workspace number 10, workspace number 10

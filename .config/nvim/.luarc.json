@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "noop",
+        "lightgray",
+        "onclose",
+        "on_close"
+    ]
+}

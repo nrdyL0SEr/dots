@@ -1,0 +1,34 @@
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+shopt -s histappend
+# If not running interactively, don't do anything (tmux!)
+[ -z "$PS1" ] && return
+
+# Clean-up, clean up, everybody everywhere!
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# Bash History
+HISTSIZE=100
+HISTFILESIZE=200
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
+
+alias ls="ls -l --color=auto"
+alias tms="tmux new -d -s hack -n mainframe && tmux attach" 
+alias tmm='tmux new-session -s music "tmux source-file ~/.config/ncmpcpp/music_session" && tmux attach'
+alias tma="tmux attach"
+
+# enable programmable completion features 
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+source ~/.config/lf/lf.bash
+
+PS1="\[\033[1;37m\]\w $ \[\033[00m\]" # Setting PS1 to show full path
+export PROMPT_DIRTRIM=3 # Trimming path to 4 directories

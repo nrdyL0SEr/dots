@@ -1,0 +1,135 @@
+set hidden true
+set scrolloff 8
+set cursorpreviewfmt "\033[7m"
+set sixel true
+set previewer ctpv
+set cleaner ctpvclear
+&ctpv -s $id
+&ctpvquit $id
+
+# Open file
+cmd open ${{
+    case $(file --mime-type "$(readlink -f $f)" -b) in
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) libreoffice "$fx" ;;
+
+    text/*|application/json|inode/x-empty|application/x-subrip) nvim "$fx";;
+
+	image/*) setsid -f imv-wayland "$fx" ;;
+
+	audio/*|video/x-ms-asf) mpv --audio-display=no "$f" ;;
+	video/*) setsid -f mpv "$f" -quiet >/dev/null 2>&1 ;;
+
+	application/pdf|application/vnd.djvu|application/epub*) setsid -f ~/.local/bin/Sioyek-x86_64.AppImage "$fx" >/dev/null 2>&1 ;;
+
+        *) for f in $fx; do setsid -f xdg-open "$f" >/dev/null 2>&1; done;;
+    esac
+}}
+# CUSTOM FUNCTIONS ---
+
+# Make Directory
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+# Make File
+cmd mkfile ${{
+  printf "File Name: "
+  read ans
+  touch $ans
+}}
+
+# New Folder with selected items
+cmd newfolder ${{
+    set -f
+    read newd
+    printf "Directory name: "
+    mkdir -- "$newd"
+    mv -i -- $fx "$newd"
+}}
+
+# Unzip/untar based on extension
+cmd unarchive ${{
+  case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar.zst) tar -xvf "$f" ;;
+      *.tar) tar -xvf "$f" ;;
+      *.tgz) tar -xvf "$f" ;;
+      *) echo "Unsupported format" ;;
+  esac
+}}
+
+# Compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+# Quit lf and go to directory
+cmd quit-and-cd &{{
+    pwd > $LF_CD_FILE
+    lf -remote "send $id quit"
+}}
+
+# Copy path
+cmd yank-path $printf '%s' "$fx" | wl-copy
+
+# Set image to background
+cmd set-bg $printf '%s' "$fx" | wl-copy && sed -i "44 s,/home.*,$(wl-paste)' fill," ~/.config/sway/config.d/settings && swaymsg reload
+
+# Move to .Trash instead of deleting
+cmd move-trash ${{
+    mv -f "$fx" ~/.Trash/
+    }}
+
+# Unbind some bindings
+    map m
+    map d
+    map Z
+    map e
+    map T
+    map N
+    map y
+    map A
+    map b
+    map B
+    map Q
+
+# Basic Functions
+map . set hidden!
+map '%' mkfile
+map d mkdir
+map ee unarchive
+map ez zip
+map et tar
+map D move-trash
+map x cut
+map y copy
+map p paste
+map q quit
+map Q quit-and-cd
+map Y yank-path
+map J :updir; down; open
+map K :updir; up; open
+map B set-bg
+
+# Movement
+map gg top
+map gh cd ~
+map gt cd ~/.Trash/
+map gc cd ~/.config/
+map gL cd ~/.local/
+map glb cd ~/.local/share/backgrounds/
+map gls cd ~/.local/bin/
+map gp cd ~/Pictures/
+map gd cd ~/Downloads/
+map gn cd ~/Notes/
+map gm cd /run/media/notfound404/
+map gM cd ~/Music/
+map gb cd ~/Books/

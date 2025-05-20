@@ -1,0 +1,13 @@
+layer=overlay
+font=Source Code Pro 12
+border-color=#FFFFFF
+background-color=#000000
+text-color=#FFFFFF
+default-timeout=3000
+
+[mode=do-not-disturb]
+invisible=1
+
+[mode=sway]
+border-color=#FF0000
+anchor=center

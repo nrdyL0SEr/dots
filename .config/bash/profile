@@ -1,0 +1,27 @@
+export EDITOR=nvim
+export XDG_SCREENSHOTS_DIR="$HOME/Pictures/"
+LANG=en_US.UTF-8
+#export JAVA_HOME="/opt/jdk-21.0.2"
+export GRIM_DEFAULT_DIR="/home/notfound404/notes/SCHOOL"
+#export PATH=$JAVA_HOME/bin:$PATH
+#export PATH="$PATH:/opt/nvim-linux64/bin":$PATH
+#export PATH=$PATH:/opt/gradle/gradle-8.7/bin
+export PATH="$PATH:/home/notfound404/.local/bin"
+
+# The size of the album art to be displayed
+export KUNST_SIZE="900x900"
+# The position where the album art should be displayed
+export KUNST_POSITION="+0+100"
+# Where your music is located
+export KUNST_MUSIC_DIR="/home/notfound404/Music/"
+
+# If running from tty1 start sway
+[ "$(tty)" = "/dev/tty1" ] && exec sway
+
+# So bash is loaded because tmux only loads login stuff which isn't bashrc :(
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
+fi

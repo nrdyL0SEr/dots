@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+op=$( echo -e "Poweroff\nReboot\nLock\nLogout\nSuspend" | tofi)
+
+case $op in 
+    Poweroff)
+        systemctl poweroff --now
+        ;;
+    Reboot)
+        systemctl reboot
+        ;;
+    Lock)
+         swaylock -f
+        ;;
+    Logout)
+        swaymsg exit
+        ;;
+    Suspend)
+        systemctl suspend
+        ;;
+esac
